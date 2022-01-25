@@ -1,6 +1,8 @@
 import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image }from '@skynexui/components';
-import { findLastIndex } from 'lodash';
+import { findLastIndex, padEnd } from 'lodash';
+import {useRouter} from 'next/router';
+import React from 'react';
 
 function GlobalStyle(){
     return(
@@ -53,6 +55,11 @@ function Titulo(props){
 }
 
 export default function PaginaInicial() {
+
+    // const username = 'skessis';
+    const [username, setUsername]= React.useState('skessis');
+    const rotear = useRouter();
+
     return (
         <>
           <GlobalStyle />
@@ -86,6 +93,12 @@ export default function PaginaInicial() {
                 
                 <Box
                     as='form'
+                    onSubmit={function (event){
+                        event.preventDefault();
+                        console.log('Houve Mudança');
+
+                        rotear.push('/chat')
+                    }}
                     styleSheet={{
                         display: 'flex',
                         alignItems: 'center',
@@ -95,18 +108,38 @@ export default function PaginaInicial() {
                         width: '450px', height: '100%',
                     }}
                 >
-                    <Image
+                    <Box
                         styleSheet={{
-                            borderRadius: '50%',
-                            // border: '1px solid #52667A',
-                            boxShadow: '0 0 4px #FFFFFF',
-                            width: '200px',
-                            height: '200px',    
-                        }}
-                        src='https://cdn-icons-png.flaticon.com/512/64/64572.png'
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
                         
-                    />
-
+                        }}
+                    >
+                        <Image
+                            styleSheet={{
+                                borderRadius: '50%',
+                                // border: '1px solid #52667A',
+                                boxShadow: '0 0 4px #FFFFFF',
+                                width: '200px',
+                                height: '200px',   
+                                marginBottom: '15px', 
+                            }}
+                            src= {`https://github.com/${username}.png`}
+                            
+                        />
+                        <Text 
+                            styleSheet={{
+                                backgroundColor: appConfig.theme.colors.neutrals['999'],
+                                padding: '3px 10px',
+                                color: appConfig.theme.colors.neutrals['000'],
+                                borderRadius: '1000px',
+                            }}
+                        >
+                            {username}
+                        </Text>
+                    </Box>
+                    
 
 
                     <Box
@@ -118,6 +151,10 @@ export default function PaginaInicial() {
                         }}
                     >
                     <TextField
+                        value={username}
+                        onChange={function (evento){
+                            setUsername(evento.target.value);
+                        }}
                         fullWidth
                         textFieldColors={{
                             neutral: {
@@ -127,8 +164,9 @@ export default function PaginaInicial() {
                             backgroundColor: appConfig.theme.colors.neutrals[800],
                             },
                         }}
-                        
-                    />
+                       
+                    >
+                    </TextField>
 
 
                     
@@ -145,7 +183,8 @@ export default function PaginaInicial() {
                     
                     </Button>
                     </Box>
-
+                          
+                    
 
                 </Box>
 
