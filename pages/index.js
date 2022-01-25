@@ -52,29 +52,10 @@ function Titulo(props){
     );
 }
 
-function SubTitulo(props){
-    const Tag = props.tag || 'h2';
-    return(
-        <>
-            <Tag>{props.children}</Tag>     
-            <style jsx>{`
-                ${Tag}{
-                    color: ${appConfig.theme.colors.neutrals['100']};
-                    font-size: 32px;                
-                }
-            `}</style>        
-                  
-
-        </>
-    );
-}
-
-
 function HomePage() {
     return (
         <>
-            <GlobalStyle />
-
+          <GlobalStyle />
           
           <Box 
             styleSheet={{
@@ -116,7 +97,8 @@ function HomePage() {
                     <Image
                         styleSheet={{
                             borderRadius: '50%',
-                            marginBottom: '16px',
+                            // border: '1px solid #52667A',
+                            boxShadow: '0 0 4px #FFFFFF',
                             width: '200px',
                             height: '200px',    
                         }}
