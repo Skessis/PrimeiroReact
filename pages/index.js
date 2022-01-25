@@ -52,7 +52,7 @@ function Titulo(props){
     );
 }
 
-function HomePage() {
+export default function PaginaInicial() {
     return (
         <>
           <GlobalStyle />
@@ -85,14 +85,15 @@ function HomePage() {
                 
                 
                 <Box
-                styleSheet={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-evenly',
-                    flexDirection: 'column',
-                    backgroundColor: appConfig.theme.colors.neutrals['800'],
-                    width: '450px', height: '100%',
-                }}
+                    as='form'
+                    styleSheet={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-evenly',
+                        flexDirection: 'column',
+                        backgroundColor: appConfig.theme.colors.neutrals['800'],
+                        width: '450px', height: '100%',
+                    }}
                 >
                     <Image
                         styleSheet={{
@@ -154,5 +155,3 @@ function HomePage() {
 
     )
   }
-  
-  export default HomePage
