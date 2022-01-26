@@ -1,6 +1,5 @@
 import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image }from '@skynexui/components';
-import { findLastIndex, padEnd } from 'lodash';
 import {useRouter} from 'next/router';
 import React from 'react';
 
@@ -34,8 +33,6 @@ function GlobalStyle(){
         `}</style>
     )
 }
-
-
 function Titulo(props){
     const Tag = props.tag || 'h1';
     return(
@@ -91,14 +88,7 @@ export default function PaginaInicial() {
                 </Box>
                 
                 
-                <Box
-                    as='form'
-                    onSubmit={function (event){
-                        event.preventDefault();
-                        console.log('Houve Mudança');
-
-                        rotear.push('/chat')
-                    }}
+                <Box                    
                     styleSheet={{
                         display: 'flex',
                         alignItems: 'center',
@@ -143,6 +133,14 @@ export default function PaginaInicial() {
 
 
                     <Box
+                        as='form'
+                        onSubmit={function (event){
+                            event.preventDefault();
+                            console.log('Houve Mudança');
+    
+                            rotear.push('/chat')
+                        }}
+                          
                         styleSheet={{
                             display: 'flex',
                             alignItems: 'center',
@@ -153,6 +151,10 @@ export default function PaginaInicial() {
                     <TextField
                         value={username}
                         onChange={function (evento){
+                            if (evento.target.value.length < 2){
+                                console.log('Teste')
+                            }
+
                             setUsername(evento.target.value);
                         }}
                         fullWidth
