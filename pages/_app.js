@@ -25,9 +25,9 @@ function GlobalStyle() {
             /* ./App fit Height */ 
     `   }</style>
     );
-  }
-  
-  export default function CustomApp({ Component, pageProps }) {
+}
+
+export default function CustomApp({ Component, pageProps }) {
     console.log('Roda em todas as páginas!');
     return (
         <>
@@ -35,4 +35,4 @@ function GlobalStyle() {
             <Component {...pageProps} />
         </>
     );
-  }
+}

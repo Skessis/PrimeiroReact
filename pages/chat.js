@@ -12,7 +12,7 @@ export default function ChatPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 backgroundColor: appConfig.theme.colors.neutrals['500'],
                 backgroundImage: 'url(https://cdn2.hubspot.net/hubfs/3350762/Top%20Cybersecurity%20Zoom%20Backgrounds-4.png)',
-                backgroundRepeat: 'no-repeat', backgroundSize: 'cover',backgroundBlendMode: 'multiply',
+                backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
                 color: appConfig.theme.colors.neutrals['000']
             }}
         >
