@@ -131,7 +131,6 @@ export default function PaginaInicial() {
                     </Box>
                     
 
-
                     <Box
                         as='form'
                         onSubmit={function (event){
