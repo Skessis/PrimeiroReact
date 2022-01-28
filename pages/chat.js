@@ -1,35 +1,49 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { createClient } from '@supabase/supabase-js'
 import React from 'react';
 import appConfig from '../config.json';
 
-export default function ChatPage() {
-    // Sua lógica vai aqui
+const supabase = createClient('https://bpcypqckhlvxdckfimul.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM4ODI2NSwiZXhwIjoxOTU4OTY0MjY1fQ.QwYeBZkludsgltUsKwjmgJIlF8-q5ZpUbzDThuwIn2k')
 
-    // ./Sua lógica vai aqui
+export default function ChatPage() {  
 
     const [dadoMensagem, setDadoMensagem] = React.useState('');
     const [listaDadoMensagem, setListaDadoMensagem] = React.useState([]);
 
+    React.useEffect(() =>{
+        supabase
+            .from('chat')
+            .select('*')
+            .then(({data}) =>{
+               setListaDadoMensagem(data);
+            });
+    }, [])
+
 
     function novaMensagem(mensagemNova) {
 
-        var data = new Date();
-        var dia = String(data.getDate()).padStart(2, '0');
-        var mes = String(data.getMonth() + 1).padStart(2, '0');
-        var ano = data.getFullYear();
-        var dataAtual = dia + '/' + mes + '/' + ano;
 
         const mensagem = {
-            id: listaDadoMensagem.length + 1,
+            // id: listaDadoMensagem.length + 1,
             autor: 'Skessis',
-            texto: mensagemNova,
-            data: dataAtual
+            conteudo: mensagemNova
         };
 
-        setListaDadoMensagem([            
-            mensagem,
-            ...listaDadoMensagem
-        ]);
+        supabase
+            .from('chat')
+            .insert([
+                mensagem
+            ])
+            .then(({data}) =>{
+                console.log(data)
+                setListaDadoMensagem([            
+                    data[0],
+                    ...listaDadoMensagem
+                ]);
+            });
+
+
+        // 
         setDadoMensagem('');
     }
 
@@ -192,10 +206,10 @@ function MessageList(props) {
                                 }}
                                 tag="span"
                             >
-                                {msg.data /* {(new Date().toLocaleDateString())} */}
+                                {msg.datem/* {(new Date().toLocaleDateString())} */}
                             </Text>
                         </Box>
-                        {msg.texto}
+                        {msg.conteudo}
                     </Text>
                 )
             })}
