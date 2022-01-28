@@ -1,5 +1,8 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js'
+import username from './index'
+import { useRouter } from 'next/router';
+
 import React from 'react';
 import appConfig from '../config.json';
 
@@ -9,6 +12,10 @@ export default function ChatPage() {
 
     const [dadoMensagem, setDadoMensagem] = React.useState('');
     const [listaDadoMensagem, setListaDadoMensagem] = React.useState([]);
+    const rotear = useRouter();
+
+    //console.log(rotear.query);
+
 
     React.useEffect(() =>{
         supabase
@@ -25,8 +32,7 @@ export default function ChatPage() {
 
 
         const mensagem = {
-            // id: listaDadoMensagem.length + 1,
-            autor: 'Skessis',
+            autor: rotear.query.user,
             conteudo: mensagemNova
         };
 
@@ -43,8 +49,6 @@ export default function ChatPage() {
                 ]);
             });
 
-
-        // 
         setDadoMensagem('');
     }
 

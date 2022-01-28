@@ -51,9 +51,9 @@ function Titulo(props) {
     );
 }
 
+
 export default function PaginaInicial() {
 
-    // const username = 'skessis';
     const [username, setUsername] = React.useState('skessis');
     const rotear = useRouter();
 
@@ -135,9 +135,14 @@ export default function PaginaInicial() {
                         as='form'
                         onSubmit={function (event) {
                             event.preventDefault();
-                            console.log('Houve Mudança');
-
-                            rotear.push('/chat')
+                            console.log(rotear);
+                            
+                            rotear.push({
+                                pathname: '/chat', 
+                                query: {user: username}},
+                                undefined,
+                                {}
+                            )
                         }}
 
                         styleSheet={{
