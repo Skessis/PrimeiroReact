@@ -1,20 +1,29 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js'
-import username from './index'
 import { useRouter } from 'next/router';
+import {ButtonSendSticker } from '../src/componentes/ButtonSendSticker'
 
 import React from 'react';
 import appConfig from '../config.json';
 
 const supabase = createClient('https://bpcypqckhlvxdckfimul.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM4ODI2NSwiZXhwIjoxOTU4OTY0MjY1fQ.QwYeBZkludsgltUsKwjmgJIlF8-q5ZpUbzDThuwIn2k')
 
+function atualizaMensagens(addMensagem) {
+    return supabase
+            .from('chat')
+            .on('INSERT', (dado) =>{
+                console.log(dado.new);
+                addMensagem(dado.new);
+            })
+            .subscribe();
+}
+
+
 export default function ChatPage() {  
 
     const [dadoMensagem, setDadoMensagem] = React.useState('');
     const [listaDadoMensagem, setListaDadoMensagem] = React.useState([]);
     const rotear = useRouter();
-
-    //console.log(rotear.query);
 
 
     React.useEffect(() =>{
@@ -25,12 +34,20 @@ export default function ChatPage() {
             .then(({data}) =>{
                setListaDadoMensagem(data);
             });
-    }, [])
+
+            atualizaMensagens((dadoMsd) =>{
+                console.log('Nova mensagem: ', dadoMsd)                
+                setListaDadoMensagem(() =>{
+                    return[
+                        dadoMsd,
+                        ...listaDadoMensagem,
+                    ]
+                });
+            });
+    }, []);
 
 
     function novaMensagem(mensagemNova) {
-
-
         const mensagem = {
             autor: rotear.query.user,
             conteudo: mensagemNova
@@ -42,13 +59,8 @@ export default function ChatPage() {
                 mensagem
             ])
             .then(({data}) =>{
-                console.log(data)
-                setListaDadoMensagem([            
-                    data[0],
-                    ...listaDadoMensagem
-                ]);
-            });
-
+                console.log('Nova mensagem:', data);
+            })
         setDadoMensagem('');
     }
 
@@ -132,6 +144,11 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                novaMensagem(':sticker: '+sticker);
+                            }}
+                        />
                     </Box>
                 </Box>
             </Box>
@@ -211,10 +228,16 @@ function MessageList(props) {
                                 }}
                                 tag="span"
                             >
-                                {msg.datem/* {(new Date().toLocaleDateString())} */}
+                                {msg.datem}
                             </Text>
                         </Box>
-                        {msg.conteudo}
+                        {msg.conteudo.startsWith(':sticker:') 
+                        ? (
+                            <Image src={msg.conteudo.replace(':sticker:', '')}/>
+                        )
+                        : (
+                            msg.conteudo
+                        )}
                     </Text>
                 )
             })}
