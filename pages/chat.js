@@ -10,12 +10,11 @@ const supabase = createClient('https://bpcypqckhlvxdckfimul.supabase.co', 'eyJhb
 
 function atualizaMensagens(addMensagem) {
     return supabase
-            .from('chat')
-            .on('INSERT', (dado) =>{
-                console.log(dado.new);
-                addMensagem(dado.new);
-            })
-            .subscribe();
+        .from('chat')
+        .on('INSERT', (dado) =>{
+            addMensagem(dado.new);
+        })
+        .subscribe();
 }
 
 
@@ -35,12 +34,11 @@ export default function ChatPage() {
                setListaDadoMensagem(data);
             });
 
-            atualizaMensagens((dadoMsd) =>{
-                console.log('Nova mensagem: ', dadoMsd)                
-                setListaDadoMensagem(() =>{
+            atualizaMensagens((dadoMsd) =>{             
+                setListaDadoMensagem((valores) =>{
                     return[
                         dadoMsd,
-                        ...listaDadoMensagem,
+                        ...valores,
                     ]
                 });
             });
